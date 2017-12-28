@@ -18,6 +18,7 @@
 # 圆形进度： #
 
 <P>使用方式：</P>
+	
 	<com.whatshappen.numberprogressbar.numberprogressbar.CircleProgressBar  
 			android:id="@+id/cpb"  
 			android:layout_width="250dp"  
