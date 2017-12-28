@@ -181,12 +181,16 @@ public class NumberHorizontalProgressBar extends View {
         }
         startX = getWidth() / 2;
         startY = getHeight();
-        if (progressBarStyle == TOP)
-            drawTopStyle(canvas);
-        else if (progressBarStyle == BOTTOM)
-            drawBottomStyle(canvas);
-        else if (progressBarStyle == CENTER)
+        if (showPercent) {
+            if (progressBarStyle == TOP)
+                drawTopStyle(canvas);
+            else if (progressBarStyle == BOTTOM)
+                drawBottomStyle(canvas);
+            else if (progressBarStyle == CENTER)
+                drawCenterStyle(canvas);
+        } else {
             drawCenterStyle(canvas);
+        }
 
     }
 
@@ -209,28 +213,30 @@ public class NumberHorizontalProgressBar extends View {
         canvas.drawRoundRect(new RectF(startX - getWidth() / 2, startY - progressBarHeight / 2,
                 rectWidth, startY + progressBarHeight / 2), progressRound, progressRound, paint);
 
-        //计算percent宽高
-        String percent = progress + "%";
-        paint.setTextSize(percentTextSize);
-        Rect rect = new Rect();
-        paint.getTextBounds(percent, 0, percent.length(), rect);
-        int percentWidth = rect.width();
-        int percentHeight = rect.height();
-        int x = progress * (getWidth() - percentWidth - percentPadding) / progressMax;
-        if (x + percentWidth + percentPadding > getWidth()) {//判断如果进度值越界，设置最大值
-            x = getWidth() - percentWidth - percentPadding;
-        }
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(percentBgColor);
-        canvas.drawRect(new RectF(x - percentPadding, startY,
-                x + percentWidth, startY), paint);
-        canvas.drawRect(new RectF(x - percentPadding, startY - percentHeight / 2-percentPadding, x + percentWidth+percentPadding, startY + startY - percentHeight / 2+percentPadding), paint);
+        if (showPercent) {//如果不显示文字，则不用绘制
+            //计算percent宽高
+            String percent = progress + "%";
+            paint.setTextSize(percentTextSize);
+            Rect rect = new Rect();
+            paint.getTextBounds(percent, 0, percent.length(), rect);
+            int percentWidth = rect.width();
+            int percentHeight = rect.height();
+            int x = progress * (getWidth() - percentWidth - percentPadding) / progressMax;
+            if (x + percentWidth + percentPadding > getWidth()) {//判断如果进度值越界，设置最大值
+                x = getWidth() - percentWidth - percentPadding;
+            }
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(percentBgColor);
+            canvas.drawRect(new RectF(x - percentPadding, startY,
+                    x + percentWidth, startY), paint);
+            canvas.drawRect(new RectF(x - percentPadding, startY - percentHeight / 2 - percentPadding, x + percentWidth + percentPadding, startY + startY - percentHeight / 2 + percentPadding), paint);
 
-        //绘制文字
-        paint.setColor(percentTextColor);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setTextSize(percentTextSize);
-        canvas.drawText(percent, x, startY + percentHeight / 2, paint);
+            //绘制文字
+            paint.setColor(percentTextColor);
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            paint.setTextSize(percentTextSize);
+            canvas.drawText(percent, x, startY + percentHeight / 2, paint);
+        }
     }
 
     /**
@@ -263,8 +269,8 @@ public class NumberHorizontalProgressBar extends View {
 
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(percentBgColor);
-        canvas.drawRect(new RectF(x - percentPadding, 0 + progressBarHeight + distanceTextBar- percentPadding,
-                x + percentWidth+percentPadding, 0 + progressBarHeight + distanceTextBar +percentPadding+percentHeight), paint);
+        canvas.drawRect(new RectF(x - percentPadding, 0 + progressBarHeight + distanceTextBar - percentPadding,
+                x + percentWidth + percentPadding, 0 + progressBarHeight + distanceTextBar + percentPadding + percentHeight), paint);
         //绘制文字
         paint.setStyle(Paint.Style.STROKE);
         paint.setTextSize(percentTextSize);
@@ -310,8 +316,8 @@ public class NumberHorizontalProgressBar extends View {
         if (x + percentWidth + percentPadding >= getWidth()) {
             x = getWidth() - percentWidth - percentPadding;
         }
-        canvas.drawRect(new RectF(x - percentPadding, startY - percentHeight - progressBarHeight - distanceTextBar-percentPadding,
-                x + percentWidth+percentPadding, startY - progressBarHeight - distanceTextBar+percentPadding), paint);
+        canvas.drawRect(new RectF(x - percentPadding, startY - percentHeight - progressBarHeight - distanceTextBar - percentPadding,
+                x + percentWidth + percentPadding, startY - progressBarHeight - distanceTextBar + percentPadding), paint);
         //绘制文字
         paint.setColor(percentTextColor);
         paint.setStyle(Paint.Style.STROKE);
@@ -327,14 +333,204 @@ public class NumberHorizontalProgressBar extends View {
         return rect.height();
     }
 
-    public NumberHorizontalProgressBar setProgress(int progress) {
+    /**
+     * 设置进度
+     *
+     * @param progress
+     */
+    public void setProgress(int progress) {
         if (progress > progressMax) {
             this.progress = progressMax;
         } else {
             this.progress = progress;
-            System.out.println("------progress =" + progress);
             postInvalidate();
         }
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    /**
+     * 设置样式
+     *
+     * @param style
+     * @return
+     */
+    public NumberHorizontalProgressBar setProgressBarStyle(int style) {
+        if (style != TOP && style != CENTER && style != BOTTOM)
+            style = TOP;
+        this.progressBarStyle = style;
         return this;
     }
+
+    public int getProgressColor() {
+        return progressColor;
+    }
+
+    public int getProgressBarStyle() {
+        return progressBarStyle;
+    }
+
+    /**
+     * 获取进度值字体大小：px
+     *
+     * @return
+     */
+    public int getTextSize() {
+        return percentTextSize;
+    }
+
+    /**
+     * 设置进去值字体大小：px
+     *
+     * @param textSize
+     * @return
+     */
+    public NumberHorizontalProgressBar setTextSize(int textSize) {
+        this.percentTextSize = textSize;
+        return this;
+    }
+
+    /**
+     * 获取进度值颜色值
+     *
+     * @return
+     */
+    public int getTextColor() {
+        return percentTextColor;
+    }
+
+    /**
+     * 设置进度值颜色值
+     *
+     * @param textColor
+     * @return
+     */
+    public NumberHorizontalProgressBar setTextColor(int textColor) {
+        this.percentTextColor = textColor;
+        return this;
+    }
+
+    /**
+     * 获取进度条背景颜色
+     *
+     * @return
+     */
+    public int getProgressBarBgColor() {
+        return progressBarColor;
+    }
+
+    /**
+     * 设置进度条背景
+     *
+     * @param progressBarBgColor
+     * @return
+     */
+    public NumberHorizontalProgressBar setProgressBarBgColor(int progressBarBgColor) {
+        this.progressBarColor = progressBarBgColor;
+        return this;
+    }
+
+    /**
+     * 设置进度背景颜色
+     *
+     * @param progressColor
+     * @return
+     */
+    public NumberHorizontalProgressBar setProgressColor(int progressColor) {
+        this.progressColor = progressColor;
+        return this;
+    }
+
+    /**
+     * 设置进度条圆角弧度
+     *
+     * @param round
+     * @return
+     */
+    public NumberHorizontalProgressBar setProgressRound(float round) {
+        this.progressRound = round;
+        return this;
+    }
+
+    public float getProgressRound() {
+        return progressRound;
+    }
+
+    /**
+     * 设置是否显示进度值
+     *
+     * @param show
+     * @return
+     */
+    public NumberHorizontalProgressBar setShowPrecent(boolean show) {
+        this.showPercent = show;
+        return this;
+    }
+
+    public boolean getShowPrecent() {
+        return showPercent;
+    }
+
+    /**
+     * 设置进度条高度
+     *
+     * @param height
+     * @return
+     */
+    public NumberHorizontalProgressBar setBarHeight(int height) {
+        this.progressBarHeight = height;
+        return this;
+    }
+
+    public int getBarHeight() {
+        return progressBarHeight;
+    }
+
+    /**
+     * 设置最大进度值
+     *
+     * @param max
+     * @return
+     */
+    public NumberHorizontalProgressBar setMax(int max) {
+        this.progressMax = max;
+        return this;
+    }
+
+    public int getProgressMax() {
+        return progressMax;
+    }
+
+    /**
+     * 设置文字与进度条之间的距离
+     *
+     * @param distance
+     * @return
+     */
+    public NumberHorizontalProgressBar setTextBarDistance(int distance) {
+        this.distanceTextBar = distance;
+        return this;
+    }
+
+    public int getTextBarDistance() {
+        return distanceTextBar;
+    }
+
+    /**
+     * 设置文字与背景的边距
+     *
+     * @param padding
+     * @return
+     */
+    public NumberHorizontalProgressBar setPadding(int padding) {
+        this.percentPadding = padding;
+        return this;
+    }
+
+    public int getPadding() {
+        return percentPadding;
+    }
+
 }

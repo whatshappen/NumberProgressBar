@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cpb="http://schemas.android.com/apk/res-auto"
     xmlns:npb="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.whatshappen.numberprogressbar.MainActivity">
 
@@ -17,5 +20,33 @@
         android:layout_marginTop="50dp"
         npb:percent_size="15sp"
         npb:progress_bar_height="3dp"
+        android:visibility="gone"
+        npb:show_percent="false"
         npb:progress_bar_style="top" />
-</RelativeLayout>
+
+    <com.whatshappen.numberprogressbar.numberprogressbar.NumberHorizontalProgressBar
+        android:id="@+id/num_pb2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        npb:percent_size="15sp"
+        android:visibility="gone"
+        npb:progress_bar_height="3dp"
+        npb:progress_bar_style="center" />
+
+    <com.whatshappen.numberprogressbar.numberprogressbar.NumberHorizontalProgressBar
+        android:id="@+id/num_pb3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        npb:percent_size="15sp"
+        android:visibility="gone"
+        npb:progress_bar_height="3dp"
+        npb:progress_bar_style="bottom" />
+
+    <com.whatshappen.numberprogressbar.numberprogressbar.CircleProgressBar
+        android:id="@+id/cpb"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        cpb:progress_bar_start_round="90" />
+</LinearLayout>

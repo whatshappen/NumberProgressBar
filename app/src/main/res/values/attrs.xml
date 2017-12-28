@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="percent_color" format="color|integer" />
+    <attr name="percent_size" format="dimension" />
+    <attr name="progress_bar_bg" format="color|integer" />
+    <attr name="progress_bg" format="color|integer" />
+    <attr name="progress_max" format="integer" />
+    <attr name="distance_text_bar" format="dimension" />
+
     <declare-styleable name="NumberHorizontalProgressBar">
-        <attr name="percent_color" format="color|integer" />
+        <attr name="percent_color"/>
         <!-- 进度百分比文字颜色 -->
-        <attr name="percent_size" format="dimension" />
+        <attr name="percent_size" />
         <!-- 进度百分比文字大小 -->
         <attr name="percent_bg_color" format="color|integer" />
         <!--百分比背景-->
-        <attr name="progress_bar_bg" format="color|integer" />
+        <attr name="progress_bar_bg"/>
         <!--进度条背景-->
-        <attr name="progress_bg" format="color|integer" />
+        <attr name="progress_bg"/>
         <!--进度背景-->
         <attr name="progress_round" format="dimension" />
         <!-- 矩形进度条 四周圆角大小 -->
@@ -17,9 +24,9 @@
         <!-- 进度文字是否显示百分号 -->
         <attr name="progress_bar_height" format="dimension" />
         <!--进度条高度-->
-        <attr name="progress_max" format="integer" />
+        <attr name="progress_max" />
         <!--最大进度值-->
-        <attr name="distance_text_bar" format="dimension" />
+        <attr name="distance_text_bar"/>
         <!--文字与进度条的垂直距离-->
         <attr name="progress_bar_style">
             <enum name="top" value="0" />
@@ -27,5 +34,24 @@
             <enum name="bottom" value="2" />
         </attr>
         <attr name="percent_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="percent_color"/>
+        <!-- 进度百分比文字颜色 -->
+        <attr name="percent_size"/>
+        <!--进度值大小-->
+        <attr name="progress_bar_bg"/>
+        <!--进度条背景-->
+        <attr name="progress_bg"/>
+        <!--进度背景-->
+        <attr name="progress_max"/>
+        <!--最大进度值-->
+        <attr name="distance_text_bar"/>
+        <!--文字与进度条的距离-->
+        <attr name="stroke_width_cir" format="dimension"/>
+        <!-- 圆形进度条边框大小 -->
+        <attr name="progress_bar_start_round" format="integer"/>
+        <!--进度条起始弧度-->
     </declare-styleable>
 </resources>
