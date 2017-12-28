@@ -6,7 +6,7 @@
 <P>使用方式：</P>
 
 	<com.whatshappen.numberprogressbar.numberprogressbar.NumberHorizontalProgressBar
-        android:id="@+id/num_pb" 
+		android:id="@+id/num_pb" 
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="50dp"
