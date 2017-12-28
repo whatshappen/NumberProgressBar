@@ -4,7 +4,8 @@
 # 水平进度 #
 
 <P>使用方式：</P>
-		<com.whatshappen.numberprogressbar.numberprogressbar.NumberHorizontalProgressBar
+<pre>
+	<com.whatshappen.numberprogressbar.numberprogressbar.NumberHorizontalProgressBar
 			android:id="@+id/num_pb"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -12,15 +13,16 @@
 			npb:percent_size="15sp"
 			npb:progress_bar_height="3dp"
 			npb:progress_bar_style="top" />
-
+</pre>
 # 圆形进度 #
 <P>使用方式：</P>
+<pre>
 		<com.whatshappen.numberprogressbar.numberprogressbar.CircleProgressBar
 			android:id="@+id/cpb"
 			android:layout_width="250dp"
 			android:layout_height="250dp"
 			cpb:progress_bar_start_round="90" />
-
+</pre>
 
 效果1：  
 ![img](https://github.com/whatshappen/NumberProgressBar/blob/master/screenshots/progressbar_top.jpg)  
