@@ -48,5 +48,6 @@
         android:id="@+id/cpb"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        cpb:progress_bar_start_round="90" />
+        cpb:progress_bar_start_round="90"
+        cpb:progress_style="center"/>
 </LinearLayout>

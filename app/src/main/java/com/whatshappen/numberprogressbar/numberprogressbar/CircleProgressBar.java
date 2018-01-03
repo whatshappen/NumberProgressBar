@@ -19,6 +19,9 @@ import com.whatshappen.numberprogressbar.R;
  */
 public class CircleProgressBar extends View {
 
+    private static final int STANDARD = 0;
+    private static final int CENTER = 1;
+
     private static final String TAG = "CircleProgressBar";
     /**
      * 进度提示文字颜色
@@ -68,6 +71,8 @@ public class CircleProgressBar extends View {
     private int minWidth;
     private Context context;
 
+    private int progressBarStyle;
+
     public CircleProgressBar(Context context) {
         this(context, null);
     }
@@ -93,6 +98,7 @@ public class CircleProgressBar extends View {
         distanceTextBar = (int) typedArray.getDimension(R.styleable.CircleProgressBar_percent_size, distanceTextBar);
         strokeWidth = (int) typedArray.getDimension(R.styleable.CircleProgressBar_stroke_width_cir, strokeWidth);
         startRound = typedArray.getInt(R.styleable.CircleProgressBar_progress_bar_start_round, startRound);
+        progressBarStyle = typedArray.getInt(R.styleable.CircleProgressBar_progress_style, progressBarStyle);
         typedArray.recycle();
         //初始化paint
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -103,6 +109,54 @@ public class CircleProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (progressBarStyle == STANDARD) {
+            drawStandard(canvas);
+        } else if (progressBarStyle == CENTER) {
+            drawCenter(canvas);
+        }
+    }
+
+    private void drawCenter(Canvas canvas) {
+        centerX = getWidth() / 2;
+        centerY = getHeight() / 2;
+        radius = centerX - strokeWidth / 2;
+
+        // 初始化画笔属性
+        paint.setColor(progressBarBgColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
+        // 画圆
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
+        canvas.drawCircle(centerX, centerY, radius, paint);
+
+        // 画圆形进度
+        paint.setColor(progressColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
+        RectF oval = new RectF(centerX - radius, centerY - radius, radius + centerX, radius + centerY);
+        canvas.drawArc(oval, startRound, 360 * progress / progressMax, false, paint);
+        // 画进度文字
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(progressColor);
+        paint.setTextSize(percentTextSize);
+
+        String percent = (int) (progress * 100 / progressMax) + "%";
+        Rect rect = new Rect();
+        paint.getTextBounds(percent, 0, percent.length(), rect);
+        float textWidth = rect.width();
+        if (textWidth >= radius * 2) {
+            textWidth = radius * 2;
+        }
+        //计算文字在圆中心的y坐标
+        Paint.FontMetrics metrics = paint.getFontMetrics();
+        float baseline = (getMeasuredHeight() - metrics.bottom + metrics.top) / 2 - metrics.top;
+        //计算文字的偏移量
+        //绘制进度
+        canvas.drawText(percent, centerX - textWidth / 2,
+                baseline, paint);
+    }
+
+    private void drawStandard(Canvas canvas) {
         Log.e(TAG, "onDraw: getHeight() =" + getHeight() + "===minWidth =" + minWidth);
         //判断，如果整体高度小于textHeight+progressBarHeight+distanceTextBar
         if (minWidth > getHeight()) {

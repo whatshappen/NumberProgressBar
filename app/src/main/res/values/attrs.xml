@@ -53,5 +53,9 @@
         <!-- 圆形进度条边框大小 -->
         <attr name="progress_bar_start_round" format="integer"/>
         <!--进度条起始弧度-->
+        <attr name="progress_style">
+            <enum name="standard" value="0" />
+            <enum name="center" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
